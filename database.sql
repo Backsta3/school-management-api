@@ -1,0 +1,33 @@
+-- -- Create students table
+-- CREATE TABLE students (
+--     id SERIAL PRIMARY KEY,
+--     first_name VARCHAR(255) NOT NULL,
+--     last_name VARCHAR(255) NOT NULL,
+--     gender VARCHAR(50),
+--     grade VARCHAR(50),
+--     status VARCHAR(50)
+-- );
+
+-- -- Create attendance table
+-- CREATE TABLE attendance (
+--     id SERIAL PRIMARY KEY,
+--     student_id INTEGER REFERENCES students(id),
+--     date DATE NOT NULL,
+--     status VARCHAR(50) NOT NULL
+-- );
+
+-- -- Create events table
+-- CREATE TABLE events (
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(255) NOT NULL,
+--     date DATE NOT NULL,
+--     time VARCHAR(50)
+-- );
+
+-- -- Create finance table (for income/expense)
+-- CREATE TABLE finance (
+--     id SERIAL PRIMARY KEY,
+--     income DECIMAL(10, 2) NOT NULL,
+--     expense DECIMAL(10, 2) NOT NULL,
+--     date DATE NOT NULL
+-- );
