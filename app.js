@@ -1,42 +1,41 @@
 // app.js
 const express = require('express');
 const cors = require('cors');
-// const dotenv = require('dotenv');
-const studentsRoutes = require('./routes/students');
-const attendanceRoutes = require('./routes/attendance');
-const eventsRoutes = require('./routes/events');
-const financeRoutes = require('./routes/finance');
-const profileRoutes = require('./routes/profile');
-const checkJwt = require('./middleware/auth');
+const dotenv = require('dotenv');
+const checkJwt = require('./middleware/auth'); // Auth0 authentication middleware
 
-// dotenv.config();  // Load environment variables from .env file
+// Import Routes
+const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
+const teacherRoutes = require('./routes/teacher');
+const studentRoutes = require('./routes/student');
+
+dotenv.config(); // Load environment variables
 
 const app = express();
 
 // Middleware
-app.use(cors());
-app.use(express.json());  // To parse incoming JSON data
+app.use(cors()); // Allow cross-origin requests
+app.use(express.json()); // Parse JSON requests
 
-// Public Routes
-app.use('/login', (req, res) => {
-    res.send('Login endpoint - Use Auth0 to log in');
+// Routes
+app.use('/auth', authRoutes); // Authentication & Authorization
+app.use('/admin', checkJwt, adminRoutes); // Admin Routes (Protected)
+app.use('/teacher', checkJwt, teacherRoutes); // Teacher Routes (Protected)
+app.use('/student', checkJwt, studentRoutes); // Student Routes (Protected)
+
+// Default Route
+app.get('/', (req, res) => {
+    res.send('Welcome to the School Management System API 🚀');
 });
 
-// Protected Routes
-// Apply Auth0 JWT authentication middleware to protected routes
-app.use('/students', checkJwt, studentsRoutes);
-app.use('/attendance', checkJwt, attendanceRoutes);
-app.use('/events', checkJwt, eventsRoutes);
-app.use('/finance', checkJwt, financeRoutes);
-app.use('/profile', checkJwt, profileRoutes);  // Profile route protected by JWT
-
-// Default Route (404 Not Found)
+// 404 Error Handler
 app.use('*', (req, res) => {
-    res.status(404).send('Endpoint not found');
+    res.status(404).json({ error: 'Endpoint not found' });
 });
 
-// Server Port
-const PORT = 4000;
+// Start Server
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });

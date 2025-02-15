@@ -1,14 +1,13 @@
-// middleware/auth.js
-const { expressjwt: jwt } = require('express-jwt');  // Correct import for express-jwt v7+
+const { expressjwt: jwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
+require('dotenv').config();
 
-// Auth0 JWT validation middleware
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
-        jwksUri: `https://morichika.us.auth0.com/.well-known/jwks.json`,  // Your Auth0 domain
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
     }),
-    audience: 'https://auth-school-management.com',  // Your API Audience (as defined in Auth0)
-    issuer: `https://morichika.us.auth0.com/`,  // Your Auth0 domain
+    audience: process.env.AUTH0_AUDIENCE,
+    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
     algorithms: ['RS256'],
 });
 
