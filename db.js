@@ -6,7 +6,7 @@ require('dotenv').config();
 const pool = new Pool({
     user: process.env.POSTGRES_USER,     // PostgreSQL username
     host: process.env.POSTGRES_HOST,     // PostgreSQL host (use Railway DB host if deployed)
-    database: process.env.POSTGRES_DB,   // Database name
+    // database: process.env.POSTGRES_DB,   // Database name
     password: process.env.POSTGRES_PASSWORD, // Database password
     port: process.env.POSTGRES_PORT || 5000, // Default PostgreSQL port
 });
